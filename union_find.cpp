@@ -1,3 +1,5 @@
+// source code by Spaghetti Source [http://www.prefield.com/algorithm/container/union_find.html]
+
 struct UnionFind {
     vector<int> data;
     UnionFind(int size) : data(size, -1) { }
