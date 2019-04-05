@@ -1,0 +1,47 @@
+{
+    //
+    // ファイルエクスプローラー
+    //
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "*.exe": true,
+        "*.obj": true
+    },
+
+    //
+    // エディタに関する設定
+    //
+
+    // 文字の表示に関する設定
+    "editor.fontFamily": "Hack",
+    "editor.fontSize": 13,
+    "editor.renderWhitespace": "boundary",
+    "editor.wordWrap": "on",
+    "editor.renderControlCharacters": true,
+
+    // 文字以外の表示に関する設定
+    "editor.minimap.enabled": false,
+
+    // 編集に関する設定
+    "editor.find.autoFindInSelection": true,
+    "editor.trimAutoWhitespace": true,
+    "editor.insertSpaces": false,
+    "editor.quickSuggestionsDelay": 0,
+
+    //
+    // ターミナルに関する設定
+    //
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\wsl.exe",
+    "workbench.colorTheme": "Palenight Theme",
+    "window.zoomLevel": 0,
+    "terminal.integrated.rendererType": "dom",
+
+    //
+    // C++拡張
+    //
+
+}
