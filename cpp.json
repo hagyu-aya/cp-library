@@ -1,43 +1,29 @@
 {
-	// Place your snippets for cpp here. Each snippet is defined under a snippet name and has a prefix, body and 
-	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
-	// same ids are connected.
-	// Example:
-	// "Print to console": {
-	// 	"prefix": "log",
-	// 	"body": [
-	// 		"console.log('$1');",
-	// 		"$2"
-	// 	],
-	// 	"description": "Log output to console"
-	// }
-	
 	//
 	// C++の構文のスニペット
 	//
 	
 	"for loop[0, n)": {
 		"prefix": "REP",
-		"body": "for(int ${1:i} = 0; ${1:i} < ${2:n}; ++${1:i}){\n    \n}\n",
+		"body": "for(int ${1:i} = 0; ${1:i} < ${2:n}; ++${1:i}){\n    \n}",
 		"description": "for loop[0, n)"
 	},
 	
 	"for loop[1, n]": {
 		"prefix": "REP1",
-		"body": "for(int ${1:i} = 1; ${1:i} <= ${2:n}; ++${1:i}){\n    \n}\n",
+		"body": "for(int ${1:i} = 1; ${1:i} <= ${2:n}; ++${1:i}){\n    \n}",
 		"description": "for loop[1, n]"
 	},
 	
 	"for loop n-1 to 0" : {
 		"prefix": "RREP",
-		"body": "for(int ${1:i} = ${2:n} - 1; ${1:i} >= 0; --${1:i}){\n    \n}\n",
+		"body": "for(int ${1:i} = ${2:n} - 1; ${1:i} >= 0; --${1:i}){\n    \n}",
 		"description": "for loop n-1 to 0"
 	},
 	
 	"Range-based for loop" : {
 		"prefix": "fore",
-		"body": "for(auto && ${1:i} : ${2:a}){\n    \n}\n",
+		"body": "for(auto && ${1:i} : ${2:a}){\n    \n}",
 		"description": "Range-based for loop"
 	},
 	
@@ -62,28 +48,34 @@
 		"body": "vector<int>",
 		"description": "vector<int>"
 	},
+
+	"vector<string>" : {
+		"prefix": "vs",
+		"body": "vector<string>",
+		"description": "vector<string>"
+	},
 	
 	//
-	// アルゴリズムであるスニペット
+	// アルゴリズムのスニペット
 	//
 	
 	"Dijkstra" : {
 		"prefix": "dijkstra",
 		"body": [
-			"priority_queue<pair<${1:T}, int>, vector<pair<${1:T}, int>>, greater<pair<${1:T}, int>>> que;",
+			"priority_queue<pair<${1:T}, int>, vector<pair<${1:T}, int>>, greater<pair<${1:T}, int>>> ${2:que};",
 			"vector<${1:T}> d(n, INF);",
-			"d[${2:s}] = 0;",
-			"que.push({${1:T}(0), ${2:s});",
+			"d[${3:s}] = 0;",
+			"${2:que}.push({${1:T}(0), ${3:s});",
 			"",
-			"while(!que.empty()){",
-			"    ${1:T} c = que.top().first;",
-			"    int v = que.top().second;",
-			"    que.pop();",
+			"while(!${2:que}.empty()){",
+			"    ${1:T} c = ${2:que}.top().first;",
+			"    int v = ${2:que}.top().second;",
+			"    ${2:que}.pop();",
 			"    ",
 			"    for(auto && e : g[v]){",
 			"        if(d[e.to] > c + e.cost){",
 			"            d[e.to] = c + e.cost;",
-			"            que.push({d[e.to], e.to});",
+			"            ${2:que}.push({d[e.to], e.to});",
 			"        }",
 			"    }",
 			"}",
@@ -122,6 +114,116 @@
 		],
 		"description": "Define extgcd"
 	},
+
+	"Mod Pow" : {
+		"prefix": "modpow",
+		"body": [
+			"int mod_pow(int x, int y){",
+			"    ll tmp = x, ret = 1;",
+			"    while(y){",
+			"        if(y & 1){",
+			"            ret *= tmp;",
+			"            ret %= MOD;",
+			"        }",
+			"        tmp = tmp * tmp % MOD;",
+			"        y >>= 1;",
+			"    }",
+			"    return ret;",
+			"}"
+		],
+		"description": "mod_pow"
+	},
+	
+	"Segment Tree": {
+		"prefix": "segtree",
+		"body": [
+			"",
+			"// T: 要素の型, E: 作用素の型",
+			"template<typename T, typename E>",
+			"class SegmentTree{",
+			"    using F = function<T(T, T)>;",
+			"    using G = function<T(T, E)>;",
+			"    using H = function<E(E, E)>;",
+			"    using P = function<E(E, int)>;",
+			"    vector<T> node; // セグ木本体",
+			"    vector<E> lazy; // 遅延評価",
+			"    F f; // 要素を合成する関数",
+			"    G g; // 要素に作用素を作用させる関数",
+			"    H h; // 作用素を合成する関数",
+			"    P p; // p(e, n) = 作用素e(∈E)をn回作用させたときの値",
+			"    T e_T; // (T, f)の単位元",
+			"    E e_E; // (E, h)の単位元で、g(t, e_E) = tを満たす",
+			"    int n; // nは2のべき乗で、n/2 < 要素数 <= nを満たす",
+			"",
+			"    // [l, r)を表すk番目のノードの遅延評価を行う",
+			"    void eval(int k, int l, int r){",
+			"        if(lazy[k] == e_E) return;",
+			"        if(k < n){",
+			"            lazy[k*2+1] = h(lazy[k*2+1], lazy[k]);",
+			"            lazy[k*2+2] = h(lazy[k*2+2], lazy[k]);",
+			"        }",
+			"        node[k] = g(node[k], p(lazy[k], r - l));",
+			"        lazy[k] = e_E;",
+			"    }",
+			"",
+			"    // a, b, x: 区間[a, b)に作用させたい値",
+			"    // k, l, r: 更新する、[l, r)を管理するノードk",
+			"    // 戻り値: xを作用させたあとの[a, b)における実際の値(node[k] + lazy[k]*length)",
+			"    T update(int a, int b, E x, int k, int l, int r){",
+			"        eval(k, l, r);",
+			"        if(r <= a || b <= l) return node[k];",
+			"        if(a <= l && r <= b){",
+			"            lazy[k] = h(lazy[k], x);",
+			"            return g(node[k], p(lazy[k], r-l));",
+			"        }",
+			"        return node[k] = f(update(a, b, x, 2*k+1, l, (l+r) / 2), update(a, b, x, 2*k+2, (l+r)/2, r));",
+			"    }",
+			"    ",
+			"    // a, b: 求めたいf(...f(a, a+1), ...), b)",
+			"    // k, l, r: 更新する、[l, r)を管理するノードk",
+			"    T accumulate(int a, int b, int k, int l, int r){",
+			"        if(b <= l || r <= a) return e_T;",
+			"        eval(k, l, r);",
+			"        if(a <= l && r <= b) return node[k];",
+			"        return f(accumulate(a, b, 2*k+1, l, (l+r) / 2), accumulate(a, b, 2*k+2, (l+r) / 2, r));",
+			"    }",
+			"",
+			"public:",
+			"    SegmentTree(int _n, F _f, G _g, H _h, P _p, T _e_T, E _e_E, vector<T> data){",
+			"        f = _f;",
+			"        g = _g;",
+			"        h = _h;",
+			"        p = _p;",
+			"        e_T = _e_T;",
+			"        e_E = _e_E;",
+			"        n = 1;",
+			"        while(n < _n) n *= 2;",
+			"        node.resize(2*n-1, e_T);",
+			"        lazy.resize(2*n-1, e_E);",
+			"        for(int i = 0; i < data.size(); ++i){",
+			"            node[i+n-1] = data[i];",
+			"        }",
+			"        for(int i = n-2; i >= 0; --i){",
+			"            node[i] = f(node[2*i+1], node[2*i+2]);",
+			"        }",
+			"    }",
+			"",
+			"    T update(int a, int b, E x){",
+			"        return update(a, b, x, 0, 0, n);",
+			"    }",
+			"",
+			"    T accumulate(int a, int b){",
+			"        return accumulate(a, b, 0, 0, n);",
+			"    }",
+			"",
+			"    T operator[](int k){",
+			"        return accumulate(k, k+1);",
+			"    }",
+			"};",
+			""
+		],
+		"description": "遅延評価SegmentTree"
+	},
 	
 	"Union Find Tree" : {
 		"prefix": "UF",
@@ -151,5 +253,5 @@
 		],
 		"description": "Union Find Tree"
 	}
-	
+
 }
