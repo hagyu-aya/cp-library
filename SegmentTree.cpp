@@ -19,7 +19,7 @@ class SegmentTree{
     // [l, r)を表すk番目のノードの遅延評価を行う
     void eval(int k, int l, int r){
         if(lazy[k] == e_E) return;
-        if(k < n){
+        if(k < n-1){
             lazy[k*2+1] = h(lazy[k*2+1], lazy[k]);
             lazy[k*2+2] = h(lazy[k*2+2], lazy[k]);
         }
