@@ -97,7 +97,7 @@
 		"prefix": "INT",
 		"body": [
 			"int ${1:x};",
-			"cin >> ${1:x};"
+			"cin >> $1;"
 		],
 		"description": "declare a integer and read the value from stdin"
 	},
@@ -106,7 +106,7 @@
 		"prefix": "INT2",
 		"body": [
 			"int ${1:x}, ${2:y};",
-			"cin >> ${1:x} >> ${2:y};"
+			"cin >> $1 >> $2;"
 		],
 		"description": "declare two integers and read the value from stdin"
 	},
@@ -115,7 +115,7 @@
 		"prefix": "INT3",
 		"body": [
 			"int ${1:x}, ${2:y}, ${3:z};",
-			"cin >> ${1:x} >> ${2:y} >> ${3:z};"
+			"cin >> $1 >> $2 >> $3;"
 		],
 		"description": "declare three integers and read the value from stdin"
 	},
@@ -124,7 +124,7 @@
 		"prefix": "LL",
 		"body": [
 			"ll ${1:x};",
-			"cin >> ${1:x};"
+			"cin >> $1;"
 		],
 		"description": "declare a ll integer and read the value from stdin"
 	},
@@ -133,7 +133,7 @@
 		"prefix": "LL2",
 		"body": [
 			"ll ${1:x}, ${2:y};",
-			"cin >> ${1:x} >> ${2:y};"
+			"cin >> $1 >> $2;"
 		],
 		"description": "declare two ll integers and read the value from stdin"
 	},
@@ -142,7 +142,7 @@
 		"prefix": "LL3",
 		"body": [
 			"ll ${1:x}, ${2:y}, ${3:z};",
-			"cin >> ${1:x} >> ${2:y} >> ${3:z};"
+			"cin >> $1 >> $2 >> $3;"
 		],
 		"description": "declare three ll integers and read the value from stdin"
 	},
@@ -152,7 +152,7 @@
 		"prefix": "STR",
 		"body": [
 			"string ${1:s};",
-			"cin >> ${1:s};"
+			"cin >> $1;"
 		],
 		"description": "declare a string and read the value from stdin"
 	},
@@ -161,9 +161,45 @@
 		"prefix": "STR2",
 		"body": [
 			"string ${1:s}, ${2:t};",
-			"cin >> ${1:s} >> ${2:t};"
+			"cin >> $1 >> $2;"
 		],
 		"description": "declare two strings and read the value from stdin"
+	},
+
+	"define and read (vector<int>)" : {
+		"prefix": "VI",
+		"body": [
+			"vector<int> ${1:a}(${2:n});",
+			"for (int i = 0; i < $2; ++i) {",
+			"    cin >> $1[i];",
+			"}",
+			""
+		],
+		"description": "declare vector<int> and read the value from stdin"
+	},
+
+	"define and read (vector<ll>)" : {
+		"prefix": "VL",
+		"body": [
+			"vector<ll> ${1:a}(${2:n});",
+			"for (int i = 0; i < $2; ++i) {",
+			"    cin >> $1[i];",
+			"}",
+			""
+		],
+		"description": "declare vector<ll> and read the value from stdin"
+	},
+
+	"define and read (vector<string>)" : {
+		"prefix": "VS",
+		"body": [
+			"vector<string> ${1:s}(${2:n});",
+			"for (int i = 0; i < $2; ++i) {",
+			"    cin >> $1[i];",
+			"}",
+			""
+		],
+		"description": "declare vector<string> and read the value from stdin"
 	},
 
 	//
@@ -185,15 +221,38 @@
 		"prefix": "readedges",
 		"body": [
 			"for (int i = 0; i < ${1:m}; ++i) {",
-			"    int from, to;",
-			"    cin >> from >> to;",
-			"    from--;",
-			"    to--;",
-			"    ${2:g}[from].push_back(to);",
-			"    ${2:g}[to].push_back(from);",
+			"    int node1, node2;",
+			"    cin >> node1 >> node2;",
+			"    node1--;",
+			"    node2--;",
+			"    ${2:g}[node1].push_back(node2);",
+			"    ${2:g}[node2].push_back(node1);",
 			"}"
 		],
 		"description": "read edges from stdin"
+	},
+
+	"factorial kit" : {
+		"prefix": "factorial",
+		"body": [
+			"constexpr int MAX_FACT = 4000000;",
+			"modint998244353 fact[MAX_FACT + 1] = {1};",
+			"modint998244353 inv[MAX_FACT + 1] = {1};",
+			"",
+			"modint998244353 init_fact(int n) {",
+			"    for(int i = 1; i <= MAX_FACT; ++i){",
+			"        fact[i] = fact[i - 1] * i;",
+			"        inv[i] = fact[i].inv();",
+			"    }",
+			"}",
+			"",
+			"modint998244353 nCk(int n, int k) {",
+			"    if(n < k) return 0;",
+			"    return fact[n] * inv[k] * inv[n-k];",
+			"}",
+			""
+		],
+		"description": "factorial and nCk"
 	},
 	
 	//
